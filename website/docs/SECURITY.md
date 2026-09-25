@@ -54,11 +54,75 @@ server-only build output, and is not evidence of a leaked key. Check
   (moderation tooling, built and reviewed in a later checkpoint) may change
   account standing, and every change is written to
   `moderation_audit_events` automatically.
-- All other tables (`geographic_areas`, `optional_communities`,
-  `community_memberships`, `meetup_places`, `quest_categories`,
-  `moderation_audit_events`) remain default-deny: RLS is on and no policy
-  exists yet. This is intentional until each feature's authorization rules
-  are implemented and reviewed (CP4/CP5), per the CP3 exit gate.
+- `optional_communities`, `community_memberships`, and
+  `moderation_audit_events` remain default-deny: RLS is on and no client
+  policy exists yet, pending the checkpoint that builds their features.
+
+### CP4: quests, join requests, chat, blocks, notifications
+
+CP4 added the read policies CP3 deferred for `geographic_areas`,
+`meetup_places`, and `quest_categories` (each now select-only, scoped to
+`status = 'active'` / `enabled = true`), plus a new set of tables
+(`supabase/migrations/20260926000100_quest_foundation.sql`):
+
+- **`quests`**: a signed-in user can see a quest if it is `published`, if
+  they host it, or if they hold any join request against it (so a declined
+  requester can still see what they applied to). Only the host can insert or
+  update their own quest. There is no delete policy — a quest is cancelled,
+  not removed, so join-request and chat history survive. Two triggers guard
+  what an update may do: `validate_quest_foundation` rejects a disabled
+  category, an inactive area, or a meetup place outside that area (checks
+  RLS can't express as column constraints), and `guard_quest_transition`
+  blocks reopening a cancelled quest, moving a published quest back to
+  draft, and shrinking capacity below the number of already-accepted
+  participants.
+- **`quest_join_requests`**: direct table access is select-only (a requester
+  sees their own request; a host sees every request on their quest). Every
+  write — creating a request, accepting/declining, withdrawing — goes
+  through a `SECURITY DEFINER` function (`request_to_join`,
+  `decide_join_request`, `withdraw_join_request`) so eligibility, duplicate
+  prevention, and capacity can't be bypassed by writing to the table
+  directly. `decide_join_request` re-checks the accepted count against
+  `capacity` inside the same transaction (with `select ... for update` row
+  locks on both the quest and the request) immediately before writing the
+  decision, so two hosts (or two calls) cannot both accept past capacity.
+- **`quest_private_instructions`**: a private, per-quest table so a pending
+  requester cannot read the meeting instructions at the database level, not
+  just in the UI — the select policy calls `is_quest_member()`, which is
+  true only for the host or an accepted participant. There is no insert
+  policy; the host sets it via `set_private_instructions()`, which checks
+  host ownership itself.
+- **`quest_room_messages`**: select and insert both require
+  `is_quest_member()`. A pending requester gets a row-level-security
+  rejection on `insert` and simply sees no rows on `select` — verified
+  directly against the API (see the CP4 test notes below).
+- **`user_blocks`**: a user can only see, create, or delete their own
+  outgoing blocks. `request_to_join()` checks both directions (host blocked
+  requester, or requester blocked host) before allowing a request.
+- **`notifications`**: select/update scoped to `user_id = auth.uid()`.
+  Rows are only ever inserted by the `SECURITY DEFINER` functions above.  A
+  trigger (`guard_notification_edit`) allows a client update to change only
+  `read_at`, rejecting any attempt to rewrite `type`, `quest_id`, or `data`.
+
+**A note on policy recursion**: `quests`' "can a requester see this quest"
+policy and `quest_join_requests`' "can the host see this request" policy
+each need to look at the other table. Two ordinary RLS policies
+cross-referencing each other's protected table that way sends Postgres's
+policy evaluation into infinite recursion. The fix used here —
+`user_has_join_request()` and `user_hosts_quest()` — is the same pattern as
+`is_quest_member()`: a `SECURITY DEFINER` function, owned by the table
+owner, does the lookup once without re-triggering RLS, and the policy calls
+the function instead of querying the other table inline.
+
+**Verified**, both directly against the local REST API and through a real
+Playwright browser session driving the actual pages: cross-user profile and
+quest isolation, capacity enforcement (a second accept past capacity is
+rejected), duplicate join-request prevention, host self-join prevention,
+block enforcement, the cancelled-quest-cannot-reopen and
+capacity-cannot-shrink-below-accepted guards, chat/instructions access
+denied before acceptance and granted immediately after, notification
+creation on request/decision events, and the read-only-except-`read_at`
+guard on notifications.
 
 ## Backup and restore (local rehearsal)
 

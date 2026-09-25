@@ -80,4 +80,73 @@ h2 { margin-bottom:0; font-size:17px; }
 .account-summary { display:grid; grid-template-columns:auto 1fr; gap:6px 14px; margin:0 0 20px; font-size:13px; }
 .account-summary dt { color:var(--muted); font-weight:600; }
 .account-summary dd { margin:0; color:var(--ink); }
+.button, a.button { text-decoration:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.filter-chip { text-decoration:none; display:inline-flex; align-items:center; cursor:pointer; }
+.nav-item { position:relative; }
+.nav-badge { display:inline-grid; place-items:center; min-width:16px; height:16px; margin-left:auto; padding:0 4px; border-radius:999px; background:var(--coral); color:#fff; font-size:9px; font-weight:800; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* Generic page shell for non-dashboard pages (quest create/detail/room, notifications) */
+.page-shell { display:flex; justify-content:center; padding:32px 16px; background:var(--paper); min-height:100vh; }
+.page-card { width:100%; max-width:640px; padding:28px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+.page-card h1 { margin-bottom:14px; font-size:22px; }
+.page-card h2 { margin:20px 0 10px; font-size:15px; }
+.page-card h3 { margin:0 0 4px; font-size:13px; }
+
+/* Quest creation form */
+.quest-form label { display:block; }
+.quest-form select, .quest-form textarea { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:11px; background:#f9fafb; color:var(--ink); font:inherit; }
+.quest-form textarea { resize:vertical; }
+.type-toggle { display:flex; gap:8px; margin:6px 0 4px; }
+.type-option { display:flex; align-items:center; gap:6px; padding:8px 14px; border:1px solid var(--line); border-radius:999px; font-size:12px; font-weight:700; color:#718096; cursor:pointer; }
+.type-option.selected { border-color:#ffbcb4; background:#fff1ee; color:#bd473c; }
+.type-option input { margin:0; }
+.favor-guidance { margin:0 0 10px; padding:10px 12px; border-radius:11px; background:#fff8ec; color:#8a6a1f; font-size:12px; line-height:1.5; }
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.field-row > div { display:flex; flex-direction:column; }
+
+/* Quest cards in the discovery list */
+.quest-list { display:flex; flex-direction:column; gap:10px; list-style:none; margin:0; padding:0; overflow-y:auto; }
+.quest-card { display:block; padding:14px; border:1px solid var(--line); border-radius:14px; background:#fff; text-decoration:none; color:inherit; }
+.quest-card:hover { border-color:#ffbcb4; }
+.quest-card h3 { margin:4px 0 6px; font-size:14px; color:var(--ink); }
+.quest-card-top { display:flex; justify-content:space-between; font-size:10px; font-weight:700; color:#8290a3; text-transform:uppercase; letter-spacing:.5px; }
+
+/* Quest detail */
+.quest-detail-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.quest-meta { margin:0 0 6px; color:var(--muted); font-size:13px; }
+.quest-description { margin:12px 0; color:var(--ink); font-size:14px; line-height:1.6; }
+.quest-action { margin-top:16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.status-badge { display:inline-block; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:700; text-transform:capitalize; }
+.status-published, .status-accepted { background:#e8f6ec; color:#2f7a4d; }
+.status-pending { background:#fff8ec; color:#8a6a1f; }
+.status-declined, .status-cancelled, .status-withdrawn, .status-expired { background:#f3f5f8; color:#718096; }
+.host-panel { margin-top:24px; padding-top:20px; border-top:1px solid var(--line); }
+.request-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.request-row { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--line); border-radius:12px; flex-wrap:wrap; }
+.request-row-actions { display:flex; gap:8px; margin-left:auto; }
+
+/* Quest room */
+.instructions-box { margin:14px 0; padding:14px; border-radius:14px; background:#fff1ee; }
+.instructions-box p { margin:0; color:#7a3b32; font-size:13px; line-height:1.55; }
+.message-list { list-style:none; margin:0 0 14px; padding:0; display:flex; flex-direction:column; gap:10px; max-height:360px; overflow-y:auto; }
+.message-own, .message-other { display:flex; flex-direction:column; gap:2px; padding:10px 12px; border-radius:12px; max-width:80%; }
+.message-own { align-self:flex-end; background:#fff1ee; }
+.message-other { align-self:flex-start; background:#f4f6f9; }
+.message-sender { font-size:10px; font-weight:700; color:#8290a3; }
+.message-body { font-size:13px; color:var(--ink); }
+.message-time { font-size:10px; color:#a5aebb; }
+.room-message-form { display:flex; gap:8px; }
+.room-message-form input { flex:1; height:43px; padding:0 12px; border:1px solid var(--line); border-radius:11px; background:#f9fafb; color:var(--ink); }
+
+/* Notifications */
+.notification-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+.notification-row { position:relative; display:flex; align-items:center; padding:12px; border:1px solid var(--line); border-radius:12px; cursor:pointer; }
+.notification-row a { text-decoration:none; color:inherit; flex:1; }
+.notification-unread { background:#fff8f7; border-color:#ffdcd6; }
+.notification-content { display:flex; justify-content:space-between; gap:10px; font-size:13px; }
+.notification-time { color:#a5aebb; font-size:11px; white-space:nowrap; }
+.notification-dot { width:8px; height:8px; border-radius:999px; background:var(--coral); margin-left:8px; }
+
+@media (max-width:600px) { .page-card { padding:18px; } .field-row { grid-template-columns:1fr; } }
 @media (max-width:600px) { .app-shell { display:block; }.sidebar { position:sticky; top:0; z-index:2; flex-direction:row; justify-content:space-between; width:100%; height:68px; padding:8px 12px; border-right:0; border-bottom:1px solid var(--line); }.sidebar .brand-name { display:inline; font-size:19px; }.primary-nav { display:flex; width:auto; gap:2px; }.nav-item { width:40px; height:42px; }.nav-item.active { background:#fff1ee; }.main-area { padding:20px 13px 14px; }.topbar { align-items:flex-start; margin-bottom:17px; }.header-actions { flex-direction:column; align-items:flex-end; gap:7px; }.account-note { font-size:10px; }.button { min-height:35px; padding:0 9px; font-size:11px; }.topbar h1 { max-width:240px; font-size:22px; }.map-toolbar { align-items:flex-start; flex-direction:column; padding:16px; }.map-placeholder { min-height:330px; }.label-one { left:23%; }.discovery-panel { padding:16px; } }

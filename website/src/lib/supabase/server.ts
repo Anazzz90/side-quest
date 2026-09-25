@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { getPublicBackendConfig } from "@/lib/backend-config";
+import type { Database } from "@/lib/supabase/database.types";
 
 /**
  * Server-side Supabase client bound to the request's cookies. Uses only the
@@ -17,7 +18,7 @@ export async function createClient() {
 
   const cookieStore = await cookies();
 
-  return createServerClient(config.url, config.anonKey, {
+  return createServerClient<Database>(config.url, config.anonKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();

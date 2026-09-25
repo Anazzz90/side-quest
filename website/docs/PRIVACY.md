@@ -1,8 +1,21 @@
-# Privacy-by-default storage (CP3 foundation)
+# Privacy-by-default storage (CP3/CP4 foundation)
 
-This documents the CP3 privacy posture for the tables and flows that exist
-today. Quest evidence, chat messages, and location-adjacent features arrive
-in CP4/CP5 and inherit these defaults; they are not built yet.
+This documents the privacy posture for the tables and flows that exist
+today. Completion evidence upload is still CP5 scope and is not built yet.
+
+## Quest chat and private meeting instructions (CP4)
+
+`quest_room_messages` and `quest_private_instructions` (added in CP4) are
+gated by row-level security on `is_quest_member()`: only the host and an
+accepted participant can read or write them — a pending or declined
+requester's direct API calls return nothing, not just a hidden UI element.
+Message bodies are plain text; there is no read receipt, delivery tracking,
+or analytics event tied to message content. Retention for chat history
+after a quest closes is not yet decided (Checkpoint 0 decision D-11 covers
+closed-room access/retention) — messages currently persist indefinitely via
+`on delete cascade` from the quest, which only removes them if the quest
+itself is deleted (quests are cancelled, not deleted, so in practice chat
+history is kept). This should be revisited when D-11 is settled.
 
 ## No live location history
 
