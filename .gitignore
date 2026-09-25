@@ -1,0 +1,15 @@
+# Website build output and local dependencies
+website/node_modules/
+website/.next/
+website/out/
+website/.env
+website/.env.*
+!website/.env.example
+website/supabase/.temp/
+*.log
+
+# Internal generated document QA artifacts
+.render*/
+_render*/
+_qa*/
+Checkpoint 2 Product and Experience Validation/

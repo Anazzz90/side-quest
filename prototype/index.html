@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Side Quest — Birmingham Dubai</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#explore" aria-label="Side Quest home">
+        <span class="brand-mark">SQ</span>
+        <span class="brand-word">side<span>quest</span></span>
+      </a>
+      <div class="campus-chip"><span class="campus-dot"></span><span><small>YOUR CAMPUS</small><strong>Birmingham Dubai</strong></span><span class="chevron">⌄</span></div>
+      <nav class="primary-nav">
+        <button class="nav-item active" data-view="explore"><span class="nav-icon">⌖</span><span>Explore</span></button>
+        <button class="nav-item" data-view="feed"><span class="nav-icon">▤</span><span>Campus feed</span><span class="nav-count">3</span></button>
+        <button class="nav-item" data-view="inbox"><span class="nav-icon">◌</span><span>Chats</span><span class="nav-count inbox-count">0</span></button>
+        <button class="nav-item" data-view="leaderboard"><span class="nav-icon">♜</span><span>Leaderboard</span></button>
+      </nav>
+      <div class="sidebar-section-label">YOUR SPACE</div>
+      <button class="nav-item" data-view="profile"><span class="nav-icon">☺</span><span>My profile</span></button>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-prompt">
+        <div class="prompt-spark">✦</div>
+        <strong>Small plans.<br>Good people.</strong>
+        <p>One side quest can make a day feel different.</p>
+        <button class="text-button" data-action="create">Post a quest <span>↗</span></button>
+      </div>
+      <div class="sidebar-user"><div class="avatar avatar-you">A</div><span><strong>Alex Morgan</strong><small>Level 4 · Campus explorer</small></span><button class="dots" aria-label="Profile options">···</button></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">SQ</span><span class="brand-word">side<span>quest</span></span></div>
+        <div class="breadcrumbs"><span>University of Birmingham Dubai</span><span class="crumb-sep">/</span><strong id="top-title">Explore</strong></div>
+        <div class="top-actions"><span class="prototype-badge"><i></i> PROTOTYPE</span><button class="icon-button bell" aria-label="Notifications" data-action="toast" data-message="You're all caught up.">♧<b></b></button><div class="avatar avatar-you top-avatar">A</div></div>
+      </header>
+
+      <section class="view active" id="view-explore">
+        <div class="explore-layout">
+          <div class="map-wrap" id="map-wrap">
+            <div class="map-toolbar">
+              <div class="map-search-row">
+                <label class="map-search"><span aria-hidden="true">⌕</span><input id="quest-search" type="search" placeholder="Find your next sidequest" autocomplete="off" aria-label="Search sidequests"><button class="search-clear" id="clear-search" aria-label="Clear search" hidden>×</button></label>
+                <button class="filter-open" data-action="filters"><span aria-hidden="true">☷</span><span>Filter</span></button>
+                <button class="theme-toggle" id="theme-toggle" data-action="toggle-theme" aria-label="Switch map theme" title="Switch map theme">☾</button>
+                <button class="map-create" data-action="create" aria-label="Create a sidequest">＋</button>
+              </div>
+              <div class="filter-chips map-category-chips" role="group" aria-label="Filter sidequests by category">
+                <button class="filter-chip selected" data-filter="all">All <span id="all-count">8</span></button>
+                <button class="filter-chip" data-filter="movies">🎬 Movies</button>
+                <button class="filter-chip" data-filter="going-out">🎉 Going out</button>
+                <button class="filter-chip" data-filter="hiking">🥾 Hiking</button>
+                <button class="filter-chip" data-filter="food">🍜 Food</button>
+                <button class="filter-chip" data-filter="study">📚 Study</button>
+                <button class="filter-chip" data-filter="games">🎮 Games</button>
+                <button class="filter-chip" data-filter="arts">🎨 Arts</button>
+                <button class="filter-chip" data-filter="sports">🏐 Sports</button>
+                <button class="filter-chip" data-filter="favor">↗ Favors</button>
+              </div>
+            </div>
+            <div class="campus-map" id="campus-map" aria-label="Illustrative quest map for University of Birmingham Dubai">
+              <div class="map-park park-north"><span>DIAC PARK</span><i>↗</i></div>
+              <div class="map-park park-south"><span>COURTYARD</span><i>✳</i></div>
+              <div class="road road-one"></div><div class="road road-two"></div><div class="road road-three"></div><div class="road road-four"></div>
+              <div class="map-building building-a"><span>LIBRARY</span><b>▤</b></div>
+              <div class="map-building building-b"><span>STUDENT<br>ASSOCIATION</span><b>✦</b></div>
+              <div class="map-building building-c"><span>FOOD HALL</span><b>⌂</b></div>
+              <div class="map-building building-d"><span>INNOVATION<br>LOUNGE</span><b>◇</b></div>
+              <div class="map-label label-academic">DUBAI INTERNATIONAL<br>ACADEMIC CITY</div>
+              <div id="quest-pins"></div>
+              <div class="map-center"><span>YOU'RE HERE</span><i></i></div>
+              <div class="map-legend"><span><i class="legend-activity"></i> Sidequest</span><span><i class="legend-favor"></i> Favor</span></div>
+              <div class="map-zoom"><button aria-label="Zoom in" data-action="toast" data-message="Map zoom controls are a visual preview.">＋</button><button aria-label="Zoom out" data-action="toast" data-message="Map zoom controls are a visual preview.">−</button></div>
+              <div class="map-caption">Quest pins show activity places, not live student locations</div>
+              <button class="recenter-map" data-action="recenter" aria-label="Recenter on campus">◎</button>
+            </div>
+            <div class="map-bottomline"><span><i class="pulse-dot"></i> <span id="map-quest-count">8 sidequests nearby</span></span><span>Campus map · Updated just now</span></div>
+          </div>
+          <aside class="quest-panel" id="quest-panel" aria-label="Nearby sidequests">
+            <div class="sheet-grab-area"><button class="sheet-handle" id="sheet-handle" aria-expanded="false"><span class="grabber"></span><span class="handle-copy">List · swipe up for nearby sidequests</span><span class="handle-chevron">⌃</span></button></div>
+            <div class="sheet-actions"><div class="panel-topline"><span class="panel-label">NEARBY SIDEQUESTS <b id="sheet-count">8</b></span><button class="panel-more" aria-label="More options" data-action="filters">☷</button></div><button class="chat-launch" data-view="inbox"><span>◌</span> Chats <b class="inbox-count">0</b></button></div>
+            <div class="quest-stack" id="quest-stack"></div>
+            <button class="browse-all" data-action="show-all">Show all nearby sidequests <span>→</span></button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-feed">
+        <div class="page-heading"><div><p class="eyebrow">THE CAMPUS, IN MOTION</p><h1>Little moments, <em>together.</em></h1><p class="subhead">Plans, recaps, and the people making campus feel like home.</p></div><button class="primary-button" data-action="create"><span>＋</span> Post a quest</button></div>
+        <div class="feed-tabs"><button class="feed-tab active" data-feed="for-you">For you</button><button class="feed-tab" data-feed="following">Following</button><button class="feed-tab" data-feed="completed">Completed quests</button></div>
+        <div class="feed-layout"><div class="feed-list" id="feed-list"></div><aside class="feed-aside"><div class="aside-heading"><span class="eyebrow">CAMPUS THIS WEEK</span><span class="mini-spark">✦</span></div><h3>There's room<br>for one more.</h3><p>Browse small plans from students around Birmingham Dubai.</p><button class="secondary-button" data-view="explore">Find a quest <span>→</span></button><div class="mini-stats"><div><strong>24</strong><span>quests started</span></div><div><strong>68</strong><span>new connections</span></div></div><div class="aside-quote">“I came for a coffee and stayed for the conversation.”<small>— Maya, second year</small></div></aside></div>
+      </section>
+
+      <section class="view" id="view-inbox">
+        <div class="page-heading"><div><p class="eyebrow">YOUR SIDEQUESTS</p><h1>Quest <em>chats.</em></h1><p class="subhead">Conversations for sidequests you’ve joined or been accepted into.</p></div></div>
+        <div class="inbox-layout"><div class="inbox-list"><div class="inbox-tabs"><button class="inbox-tab active">Chats <span id="inbox-total">0</span></button><button class="inbox-tab">Requests <span class="request-total">0</span></button><button class="inbox-tab">Past</button></div><div id="inbox-items"></div></div><div class="chat-area" id="chat-area"><div class="chat-empty"><div class="chat-empty-icon">◌</div><h3>Your next conversation<br>starts with a quest.</h3><p>When a host accepts your request, your private quest chat will show up here.</p><button class="secondary-button" data-view="explore">Explore quests <span>→</span></button></div></div></div>
+      </section>
+
+      <section class="view" id="view-leaderboard">
+        <div class="page-heading"><div><p class="eyebrow">GOOD ENERGY GETS A LITTLE CREDIT</p><h1>Campus <em>contributors.</em></h1><p class="subhead">Points for showing up, lending a hand, and making a plan happen.</p></div><button class="season-button" data-action="toast" data-message="Weekly season · resets Monday">◷ This week <span>⌄</span></button></div>
+        <div class="leaderboard-wrap"><div class="leaderboard-banner"><div><span class="eyebrow">WEEKLY TOP 10</span><h2>Small acts add up.</h2><p>Points celebrate contribution. Your profile stays off this board unless you opt in.</p></div><div class="podium" id="podium"></div></div><div class="leaderboard-table"><div class="leader-head"><span>RANK</span><span>STUDENT</span><span>QUESTS</span><span>POINTS</span></div><div id="leader-rows"></div><div class="leader-foot"><span>Showing this week's top contributors</span><button data-action="toast" data-message="Leaderboard privacy is controlled in your profile.">Your privacy settings ↗</button></div></div></div>
+      </section>
+
+      <section class="view" id="view-profile">
+        <div class="page-heading"><div><p class="eyebrow">YOUR SIDE QUEST STORY</p><h1>A little more <em>out there.</em></h1><p class="subhead">Your profile is campus-only. You choose what to share.</p></div><button class="secondary-button" data-action="edit-profile">Edit profile <span>↗</span></button></div>
+        <div class="profile-layout"><div class="profile-card"><div class="profile-cover"><span>✦</span><span class="cover-orbit orbit-one"></span><span class="cover-orbit orbit-two"></span></div><div class="profile-main"><div class="avatar avatar-you profile-avatar">A</div><span class="level-pill">LEVEL 4 · CAMPUS EXPLORER</span><h2>Alex Morgan</h2><p>Here for good coffee, spontaneous plans, and meeting people outside my course.</p><div class="interest-list"><span>☕ Coffee walks</span><span>🎬 Films</span><span>📚 Study breaks</span></div><div class="profile-actions"><button class="privacy-toggle" id="profile-privacy" aria-pressed="false"><i></i><span>Show me on leaderboard</span></button><button class="text-button" data-action="toast" data-message="Your profile is only visible to verified campus members.">Privacy settings ↗</button></div></div></div><div class="profile-content"><div class="profile-stats"><div><strong id="profile-points">85</strong><span>QUEST POINTS</span></div><div><strong id="profile-completed">4</strong><span>QUESTS DONE</span></div><div><strong>3</strong><span>PEOPLE MET</span></div></div><div class="profile-section-heading"><h3>Recent quests</h3><button class="text-button" data-view="feed">See recaps ↗</button></div><div class="profile-quests" id="profile-quests"></div><div class="badge-row"><div class="badge-medal">✦</div><div><strong>First footsteps</strong><span>Completed your first side quest</span></div><span class="badge-check">✓</span></div></div></div>
+      </section>
+    </main>
+
+    <nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-view="explore"><span>⌖</span>Explore</button><button data-view="feed"><span>▤</span>Feed</button><button class="mobile-create" data-action="create" aria-label="Post a quest">＋</button><button data-view="inbox"><span>◌</span>Chats</button><button data-view="profile"><span>☺</span>You</button></nav>
+  </div>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" aria-label="Close dialog" data-action="close-modal">×</button>
+      <div id="modal-content"></div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
