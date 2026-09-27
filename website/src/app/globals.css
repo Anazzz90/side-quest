@@ -1,6 +1,7 @@
 /* Design tokens from the accepted spec: prototype/SideQuest_UI_UX_Design_
-   Specification.docx, section 7 ("Visual design system"). Day values are
-   the default; :root.theme-night overrides them for the night map. */
+   Specification.docx, section 7 ("Visual design system"). The page itself
+   always stays in these (day) values -- only the map switches its own
+   light/dark style based on the time in Dubai (see quest-map.tsx). */
 :root {
   color-scheme: light;
   --ink: #172033;
@@ -13,19 +14,6 @@
   --violet: #7c3aed;
   --lime: #a3e635;
   --shadow: 0 10px 30px #18233a12;
-}
-:root.theme-night {
-  color-scheme: dark;
-  --ink: #f2f5fb;
-  --muted: #9ba7bf;
-  --line: #2b3650;
-  --paper: #0f1629;
-  --surface: #172139;
-  --coral: #ff6b5d;
-  --coral-dark: #ff5e4d;
-  --violet: #a78bfa;
-  --lime: #bef264;
-  --shadow: 0 10px 30px #0006;
 }
 
 * { box-sizing: border-box; }
@@ -82,8 +70,7 @@ h2 { margin-bottom: 0; font-size: 17px; }
 .map-search > span { font-size: 20px; line-height: 1; }
 .map-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
 .map-search input::placeholder { color: var(--muted); }
-.theme-toggle, .map-create { flex: none; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow); display: grid; place-items: center; font-size: 18px; color: var(--ink); }
-.map-create { color: #fff; background: var(--coral); border-color: var(--coral); font-size: 24px; }
+.map-create { flex: none; width: 44px; height: 44px; border: 1px solid var(--coral); border-radius: 12px; box-shadow: var(--shadow); display: grid; place-items: center; color: #fff; background: var(--coral); font-size: 24px; }
 .map-category-chips { display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; padding: 1px 0 3px; }
 .map-category-chips::-webkit-scrollbar { display: none; }
 .map-category-chips .filter-chip { flex: none; white-space: nowrap; background: var(--surface); box-shadow: var(--shadow); }
@@ -165,7 +152,6 @@ h2 { margin-bottom: 0; font-size: 17px; }
 .type-option.selected { border-color: var(--coral); background: color-mix(in srgb, var(--coral) 12%, transparent); color: var(--coral-dark); }
 .type-option input { margin: 0; }
 .favor-guidance { margin: 0 0 10px; padding: 10px 12px; border-radius: 11px; background: #fff8ec; color: #8a6a1f; font-size: 12px; line-height: 1.5; }
-:root.theme-night .favor-guidance { background: #2a2410; color: #e8c877; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .field-row > div { display: flex; flex-direction: column; }
 

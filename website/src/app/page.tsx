@@ -2,7 +2,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getPublicBackendConfig, getPublicMapboxToken } from "@/lib/backend-config";
 import { countUnreadNotifications, listCategories, listPublishedQuestPoints, listPublishedQuests } from "@/lib/data/quests";
-import ThemeToggle from "./theme-toggle";
 import MapExperience from "./map-experience";
 
 export const dynamic = "force-dynamic";
@@ -142,7 +141,6 @@ export default async function HomePage({
                 aria-label="Search sidequests"
               />
             </label>
-            <ThemeToggle />
             {user && (
               <Link className="map-create" href="/quests/new" aria-label="Create a sidequest">
                 ＋

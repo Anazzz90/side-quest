@@ -20,26 +20,9 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Applies the remembered (or device-default) theme before first paint, so
-// there's no flash of the wrong theme while React hydrates. Design spec:
-// "initial theme follows device appearance... remember a manual choice
-// across sessions" (section 5, "Theme").
-const THEME_INIT_SCRIPT = `
-(function () {
-  try {
-    var stored = localStorage.getItem("sq-theme");
-    var night = stored ? stored === "night" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if (night) document.documentElement.classList.add("theme-night");
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={jakarta.variable} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-      </head>
+    <html lang="en" className={jakarta.variable}>
       <body>{children}</body>
     </html>
   );

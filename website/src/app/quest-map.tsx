@@ -86,16 +86,6 @@ const QuestMap = forwardRef<QuestMapHandle, { token: string; points: MapPoint[];
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
-    // Switch the base style when the theme toggles. style.setStyle preserves
-    // the map's current center/zoom, so this doesn't jump the view around.
-    useEffect(() => {
-      const map = mapRef.current;
-      if (!map || !styleLoaded) return;
-      map.setStyle(night ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11");
-      map.once("style.load", () => setStyleLoaded(true));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [night]);
-
     useEffect(() => {
       const map = mapRef.current;
       if (!map || !styleLoaded) return;

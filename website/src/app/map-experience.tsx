@@ -1,7 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import QuestMap, { type MapPoint, type QuestMapHandle } from "./quest-map";
+
+/** 7pm-6am in Dubai Academic City counts as night for the map's own style
+ * (the rest of the page stays in its normal light appearance). */
+function isDubaiNight() {
+  try {
+    const hour = parseInt(
+      new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Dubai", hour: "numeric", hour12: false }).format(new Date()),
+      10
+    );
+    return hour >= 19 || hour < 6;
+  } catch {
+    return false;
+  }
+}
 
 export default function MapExperience({
   token,
@@ -15,15 +29,8 @@ export default function MapExperience({
   children: ReactNode;
 }) {
   const mapRef = useRef<QuestMapHandle>(null);
-  const [night, setNight] = useState(false);
   const [expanded, setExpanded] = useState(false);
-
-  useEffect(() => {
-    setNight(document.documentElement.classList.contains("theme-night"));
-    const onThemeChange = (e: Event) => setNight((e as CustomEvent).detail.night);
-    window.addEventListener("sq-theme-change", onThemeChange);
-    return () => window.removeEventListener("sq-theme-change", onThemeChange);
-  }, []);
+  const [night] = useState(isDubaiNight);
 
   return (
     <>
