@@ -597,6 +597,20 @@ export type Database = {
         Args: { p_quest_id: string; p_user_id: string }
         Returns: boolean
       }
+      list_published_quest_points: {
+        Args: {
+          p_category_id?: string
+          p_quest_type?: Database["public"]["Enums"]["quest_type"]
+          p_search?: string
+        }
+        Returns: {
+          category_label: string
+          id: string
+          lat: number
+          lng: number
+          title: string
+        }[]
+      }
       request_to_join: {
         Args: { p_quest_id: string }
         Returns: {

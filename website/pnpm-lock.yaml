@@ -14,6 +14,9 @@ importers:
       '@supabase/supabase-js':
         specifier: 2.117.1
         version: 2.117.1
+      mapbox-gl:
+        specifier: 3.31.0
+        version: 3.31.0
       next:
         specifier: 16.3.6
         version: 16.3.6(@types/node@26.6.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -27,6 +30,9 @@ importers:
         specifier: 0.0.1
         version: 0.0.1
     devDependencies:
+      '@types/mapbox-gl':
+        specifier: 3.4.1
+        version: 3.4.1
       '@types/node':
         specifier: 26.6.2
         version: 26.6.2
@@ -367,6 +373,12 @@ packages:
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
 
+  '@types/geojson@7946.0.16':
+    resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
+
+  '@types/mapbox-gl@3.4.1':
+    resolution: {integrity: sha512-NsGKKtgW93B+UaLPti6B7NwlxYlES5DpV5Gzj9F75rK5ALKsqSk15CiEHbOnTr09RGbr6ZYiCdI+59NNNcAImg==}
+
   '@types/node@26.6.2':
     resolution: {integrity: sha512-X1P21scMv4zGKLYqjdGjaKa7COa0RKVYYZZN/NfvLQ1JegxFhdhpZG/Lyn8AXx6CDUavKAd11v6BvfpkDByK8g==}
 
@@ -530,6 +542,9 @@ packages:
 
   jose@6.2.12:
     resolution: {integrity: sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==}
+
+  mapbox-gl@3.31.0:
+    resolution: {integrity: sha512-7i25NyCPW5jnqsqJq3irgBBEoVTJgfZqTJJS446Q3ZuxyAb5Om75UIcxYIo38oz9eDswnBXr0riz+M/C8V7g3Q==}
 
   nanoid@3.3.19:
     resolution: {integrity: sha512-Y2tUNy4ouw6tq5oDSKeQYGOyhkUBhNOcGV/02KC+6kd9eDGqdZd++mjMiIDilrBYvjEnCYvVtsuHCuP+okSfug==}
@@ -842,6 +857,12 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@types/geojson@7946.0.16': {}
+
+  '@types/mapbox-gl@3.4.1':
+    dependencies:
+      '@types/geojson': 7946.0.16
+
   '@types/node@26.6.2':
     dependencies:
       undici-types: 8.9.0
@@ -937,6 +958,8 @@ snapshots:
   iceberg-js@0.8.1: {}
 
   jose@6.2.12: {}
+
+  mapbox-gl@3.31.0: {}
 
   nanoid@3.3.19: {}
 

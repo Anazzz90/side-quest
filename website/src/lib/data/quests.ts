@@ -70,6 +70,17 @@ export async function listPublishedQuests(filters: QuestFilters = {}) {
   return data;
 }
 
+export async function listPublishedQuestPoints(filters: QuestFilters = {}) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("list_published_quest_points", {
+    p_quest_type: filters.questType ?? undefined,
+    p_category_id: filters.categoryId ?? undefined,
+    p_search: filters.search ?? undefined,
+  });
+  if (error) throw error;
+  return data;
+}
+
 export async function getQuestDetail(questId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase

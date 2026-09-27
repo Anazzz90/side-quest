@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { getPublicBackendConfig } from "@/lib/backend-config";
-import { countUnreadNotifications, listCategories, listPublishedQuests } from "@/lib/data/quests";
+import { getPublicBackendConfig, getPublicMapboxToken } from "@/lib/backend-config";
+import { countUnreadNotifications, listCategories, listPublishedQuestPoints, listPublishedQuests } from "@/lib/data/quests";
+import QuestMap from "./quest-map";
 
 const navigation = ["Explore", "Saved", "Chats", "Leaderboard", "Profile"];
 
@@ -25,17 +26,24 @@ export default async function HomePage({
     : null;
 
   const canQuery = Boolean(config && user);
-  const [quests, categories, unreadCount] = canQuery
+  const questFilters = {
+    questType: (type === "activity" || type === "favor" ? type : undefined) as
+      | "activity"
+      | "favor"
+      | undefined,
+    categoryId: category || undefined,
+    search: q || undefined,
+  };
+  const [quests, categories, unreadCount, mapPoints] = canQuery
     ? await Promise.all([
-        listPublishedQuests({
-          questType: type === "activity" || type === "favor" ? type : undefined,
-          categoryId: category || undefined,
-          search: q || undefined,
-        }),
+        listPublishedQuests(questFilters),
         listCategories(),
         countUnreadNotifications(user!.id),
+        listPublishedQuestPoints(questFilters),
       ])
-    : [[], [], 0];
+    : [[], [], 0, []];
+
+  const mapboxToken = getPublicMapboxToken();
 
   const filterHref = (params: Record<string, string | undefined>) => {
     const usp = new URLSearchParams();
@@ -106,20 +114,28 @@ export default async function HomePage({
                 <p className="eyebrow">INITIAL AREA</p>
                 <h2 id="map-title">Dubai Academic City</h2>
               </div>
-              <span className="map-status">Illustrative placeholder · map provider pending CP1</span>
+              <span className="map-status">
+                {mapboxToken ? "Quest venues · no live location" : "Illustrative placeholder · no map token set"}
+              </span>
             </div>
-            <div className="map-placeholder" role="img" aria-label="Illustrative map placeholder for Dubai Academic City">
-              <div className="map-road road-one" />
-              <div className="map-road road-two" />
-              <div className="map-block block-one" />
-              <div className="map-block block-two" />
-              <div className="map-block block-three" />
-              <span className="map-label label-one">Academic City</span>
-              <span className="map-label label-two">Public places will be configured after review</span>
-              <span className="map-pin pin-one" aria-hidden="true">＋</span>
-              <span className="map-pin pin-two" aria-hidden="true">＋</span>
-              <div className="map-caption">Illustrative development view · no live user locations</div>
-            </div>
+            {mapboxToken && user ? (
+              <QuestMap token={mapboxToken} points={mapPoints} />
+            ) : (
+              <div className="map-placeholder" role="img" aria-label="Illustrative map placeholder for Dubai Academic City">
+                <div className="map-road road-one" />
+                <div className="map-road road-two" />
+                <div className="map-block block-one" />
+                <div className="map-block block-two" />
+                <div className="map-block block-three" />
+                <span className="map-label label-one">Academic City</span>
+                <span className="map-label label-two">
+                  {user ? "Set NEXT_PUBLIC_MAPBOX_TOKEN to enable the live map" : "Sign in to see quests on the map"}
+                </span>
+                <span className="map-pin pin-one" aria-hidden="true">＋</span>
+                <span className="map-pin pin-two" aria-hidden="true">＋</span>
+                <div className="map-caption">Illustrative development view · no live user locations</div>
+              </div>
+            )}
           </section>
 
           <aside className="discovery-panel" aria-labelledby="nearby-title">
