@@ -23,12 +23,22 @@ port = 54324
 [auth]
 enabled = true
 site_url = "http://localhost:3000"
-additional_redirect_urls = ["http://127.0.0.1:3000"]
+additional_redirect_urls = ["http://127.0.0.1:3000", "http://localhost:3000/**", "http://127.0.0.1:3000/**"]
 
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
 enable_confirmations = true
+
+# Google sign-in. The client secret is never written to this file — it's
+# read from the GOOGLE_CLIENT_SECRET environment variable at `supabase
+# start` time. See docs/SETUP.md for how to provide it locally. The hosted
+# project is configured separately, straight in the Supabase dashboard
+# (Authentication -> Providers -> Google), not through this file.
+[auth.external.google]
+enabled = true
+client_id = "1021736894793-d0bs5ss8sj8ivhgcbdips78ajndkp93j.apps.googleusercontent.com"
+secret = "env(GOOGLE_CLIENT_SECRET)"
 
 # Local-only telemetry stack (Logflare/Vector). Disabled: it adds a flaky
 # health check to local startup and is not needed for CP3 review; the

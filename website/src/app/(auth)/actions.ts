@@ -90,6 +90,32 @@ export async function signUpWithPassword(
   redirect("/sign-in?created=1");
 }
 
+export async function signInWithGoogle(next: string) {
+  if (!isSignupAllowed()) {
+    // Google sign-in is also a registration path (Supabase creates the
+    // account on first login), so it's gated the same as email/password
+    // sign-up: development-only until CP1 approves production access.
+    redirect("/sign-in?error=disabled");
+  }
+
+  const h = await headers();
+  const proto = h.get("x-forwarded-proto") ?? "http";
+  const origin = `${proto}://${h.get("host")}`;
+  const safeNext = next.startsWith("/") ? next : "/account";
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(safeNext)}` },
+  });
+
+  if (error || !data.url) {
+    redirect("/sign-in?error=oauth");
+  }
+
+  redirect(data.url);
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();

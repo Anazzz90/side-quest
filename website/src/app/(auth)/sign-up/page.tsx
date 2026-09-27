@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { isSignupAllowed } from "@/lib/backend-config";
+import { signInWithGoogle } from "../actions";
 import SignUpForm from "./sign-up-form";
 
 export const metadata = { title: "Create account · Side Quest" };
@@ -18,7 +19,17 @@ export default function SignUpPage() {
           moderation decisions are approved.
         </p>
         {allowed ? (
-          <SignUpForm />
+          <>
+            <form action={signInWithGoogle.bind(null, "/account")}>
+              <button className="button button-secondary button-google" type="submit">
+                Continue with Google
+              </button>
+            </form>
+            <div className="auth-divider">
+              <span>or</span>
+            </div>
+            <SignUpForm />
+          </>
         ) : (
           <p className="auth-error">
             Sign-up is disabled in this environment. Set AUTH_ALLOW_SIGNUP=true in a

@@ -57,6 +57,30 @@ This flag is force-disabled whenever `NODE_ENV=production`
 (`src/lib/backend-config.ts`), independent of the environment variable, so
 production registration cannot be turned on by configuration alone.
 
+## Google sign-in (local)
+
+`supabase/config.toml` declares the Google provider with a real client ID
+and reads the client secret via `env(GOOGLE_CLIENT_SECRET)`. The Supabase
+CLI is a **separate process from Next.js** and does not read `.env.local`
+itself, so putting the secret there alone does nothing — export it in the
+same shell before starting the stack:
+
+```sh
+export GOOGLE_CLIENT_SECRET=...   # from Google Cloud Console; bash/zsh
+pnpm db:start
+```
+
+```powershell
+$env:GOOGLE_CLIENT_SECRET = "..."  # PowerShell
+pnpm db:start
+```
+
+Without it set, `supabase start` still runs, but the Google provider comes
+up without a working secret and Google sign-in will fail locally — email/
+password sign-in is unaffected either way. This only matters for local
+testing; the hosted project's Google secret is configured separately, once,
+straight in the Supabase dashboard (Authentication → Providers → Google).
+
 ## Everyday commands
 
 | Command | Purpose |

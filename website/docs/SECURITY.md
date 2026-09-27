@@ -1,7 +1,7 @@
 # Secrets, data access, and incident handling (development scaffold)
 
-This describes the CP3 foundation only. It will be revised once CP1 hosting
-and privacy decisions are approved and a real deployment target exists.
+This describes the CP3/CP4 foundation. It will be revised once CP1 hosting
+and privacy decisions are approved and real user data is authorized.
 
 ## Secrets handling
 
@@ -184,3 +184,26 @@ applied in filename (timestamp) order. `pnpm exec supabase db reset` is the
 repeatability check: it must apply every migration to an empty database
 without error. Never edit a migration that has already been applied anywhere
 outside a fresh local reset; add a new migration instead.
+
+## The hosted project and `supabase config push`
+
+A hosted Supabase project exists (linked via `supabase link`). Two CLI
+commands touch it, and they are easy to confuse:
+
+- `supabase db push` — applies pending migrations from `supabase/migrations/`
+  to the hosted database. This is the safe, expected way to deploy schema
+  changes, and was used to bring the hosted project's schema up to date
+  with CP3/CP4.
+- `supabase config push` — pushes `supabase/config.toml` (auth providers,
+  redirect URLs, etc.) to the hosted project's **live configuration**,
+  including secrets resolved from `env()` at the time it runs. **This
+  happened once by accident** during CP4 Google sign-in setup, using a
+  placeholder value for `GOOGLE_CLIENT_SECRET` that was only meant for a
+  local test — it enabled the Google provider on the hosted project with a
+  non-functional placeholder secret. Nothing was exposed (a placeholder is
+  not a real credential), but it's a reminder that `config push` is a
+  write to the real, live project, not a local-only operation, and should
+  be run deliberately, not as a side effect of testing something else.
+  Fix: enter the real secret directly in the hosted dashboard
+  (Authentication → Providers → Google) — that overwrites whatever the CLI
+  last pushed.

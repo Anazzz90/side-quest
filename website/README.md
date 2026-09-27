@@ -8,7 +8,7 @@ This directory contains the CP3/CP4 development build. It is separate from `../p
 - Supabase local development for PostgreSQL, PostGIS, Auth, and later Storage/Realtime integration.
 - Versioned SQL migrations under `supabase/migrations/`.
 
-The database and identity services are not connected to a hosted project. No secrets or real user records belong in this repository.
+A hosted Supabase project also exists (`wmaqfsetovfoowpwbqfr`, ap-southeast-1) with the same CP3/CP4 schema pushed to it (`supabase db push`) for review — it holds no real user data, is not what `pnpm dev` points at by default, and should stay that way until CP1 privacy/hosting decisions land. No secrets or real user records belong in this repository.
 
 ## Local development
 
@@ -50,4 +50,11 @@ Verified locally, both against the raw API and through a real Playwright-driven 
 
 Documented in `docs/`: local setup (now including the seed fixtures and type-generation command), secrets handling, backup/restore rehearsal, data access (including the CP4 policy set and the RLS-recursion fix), incident response, and the privacy-by-default design.
 
-Still open, and intentionally deferred: a real map provider (CP1 decision D-05), reviewed public venues (D-04) — the current ones are clearly labeled synthetic fixtures, Google sign-in, a durable/shared rate limiter, background quest-expiry (currently computed at query time, not a stored transition), realtime chat delivery (CP5), and anything requiring a hosted environment.
+## Post-CP4: hosted project + Google sign-in
+
+- Linked and pushed the CP3/CP4 schema to a hosted Supabase project (`supabase db push` + `--include-seed`); verified RLS and the security-definer functions behave identically there (anonymous reads denied, unauthenticated RPC calls rejected).
+- Wired Google sign-in end to end: `supabase/config.toml` declares the provider with a real client ID, an `/auth/callback` route exchanges the OAuth code for a session, and both sign-in and sign-up pages offer "Continue with Google" (gated by the same `AUTH_ALLOW_SIGNUP` flag as email/password, since it's equally a registration path). The profile-creation trigger now also reads Google's `full_name`/`name` metadata, not just our own `display_name` key.
+- The Google **client secret** is not in this repo: locally it's read via `env(GOOGLE_CLIENT_SECRET)` (export it in your shell before `pnpm db:start` — the Supabase CLI does not read `.env.local` itself); on the hosted project it's entered directly in the dashboard.
+- See [docs/SECURITY.md](./docs/SECURITY.md) for a note on `supabase config push` vs `db push` — the former writes live hosted config and was triggered once by accident during this setup (a placeholder secret was pushed to the hosted project's Google provider; harmless, but worth the reminder).
+
+Still open, and intentionally deferred: a real map provider (CP1 decision D-05), reviewed public venues and a real category list (D-04), a durable/shared rate limiter, background quest-expiry (currently computed at query time, not a stored transition), realtime chat delivery (CP5), and production use of the hosted project (pending the CP1 privacy/age-assurance review).
