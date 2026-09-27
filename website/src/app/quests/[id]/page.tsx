@@ -64,7 +64,7 @@ export default async function QuestDetailPage({ params }: { params: Promise<{ id
           {acceptedCount} / {quest.capacity} joined
         </p>
 
-        <p className="quest-description">{quest.description}</p>
+        {quest.description && <p className="quest-description">{quest.description}</p>}
 
         {quest.cost_note && <p className="quest-meta">Cost: {quest.cost_note}</p>}
         {quest.accessibility_notes && <p className="quest-meta">Accessibility: {quest.accessibility_notes}</p>}

@@ -417,7 +417,7 @@ export type Database = {
           category_id: string
           cost_note: string | null
           created_at: string
-          description: string
+          description: string | null
           expires_at: string
           favor_ack: boolean
           host_user_id: string
@@ -438,7 +438,7 @@ export type Database = {
           category_id: string
           cost_note?: string | null
           created_at?: string
-          description: string
+          description?: string | null
           expires_at: string
           favor_ack?: boolean
           host_user_id: string
@@ -459,7 +459,7 @@ export type Database = {
           category_id?: string
           cost_note?: string | null
           created_at?: string
-          description?: string
+          description?: string | null
           expires_at?: string
           favor_ack?: boolean
           host_user_id?: string
