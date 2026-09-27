@@ -605,6 +605,7 @@ export type Database = {
         }
         Returns: {
           category_label: string
+          category_slug: string
           id: string
           lat: number
           lng: number

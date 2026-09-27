@@ -9,13 +9,21 @@ insert into public.geographic_areas (id, slug, name, time_zone, status)
 values ('00000000-0000-0000-0000-000000000001', 'dubai-academic-city', 'Dubai Academic City', 'Asia/Dubai', 'active')
 on conflict (id) do nothing;
 
+-- Matches the accepted design spec (prototype/SideQuest_UI_UX_Design_
+-- Specification.docx, section 5): All, Movies, Going out, Hiking, Food,
+-- Study, Games, Arts, Sports, plus Favors for favor-type quests.
 insert into public.quest_categories (id, slug, label, quest_type, enabled)
 values
-  ('00000000-0000-0000-0000-0000000000a1', 'hangout', 'Hangout', 'activity', true),
-  ('00000000-0000-0000-0000-0000000000a2', 'study-session', 'Study session', 'activity', true),
-  ('00000000-0000-0000-0000-0000000000a3', 'pickup-sport', 'Pickup sport', 'activity', true),
-  ('00000000-0000-0000-0000-0000000000f1', 'small-favor', 'Small favor', 'favor', true)
-on conflict (id) do nothing;
+  ('00000000-0000-0000-0000-0000000000a1', 'going-out', 'Going out', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a2', 'study', 'Study', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a3', 'sports', 'Sports', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a4', 'movies', 'Movies', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a5', 'hiking', 'Hiking', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a6', 'food', 'Food', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a7', 'games', 'Games', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000a8', 'arts', 'Arts', 'activity', true),
+  ('00000000-0000-0000-0000-0000000000f1', 'favors', 'Favors', 'favor', true)
+on conflict (slug) do nothing;
 
 insert into public.meetup_places (id, area_id, label, public_point, public_access_verified_at, status)
 values
