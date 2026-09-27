@@ -38,6 +38,11 @@ export async function signInWithPassword(
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
+    // Surface the real reason where we can -- "check your password" is
+    // actively misleading when the account exists but isn't confirmed yet.
+    if (error.code === "email_not_confirmed" || /not confirmed/i.test(error.message)) {
+      return { error: "Confirm your email before signing in. Check your inbox for the confirmation link." };
+    }
     return { error: "Sign-in failed. Check your email and password." };
   }
 

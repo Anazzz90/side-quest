@@ -28,7 +28,12 @@ additional_redirect_urls = ["http://127.0.0.1:3000", "http://localhost:3000/**",
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
-enable_confirmations = true
+# Confirmation emails went to the local fake inbox (local_smtp, port 54324),
+# not the tester's real address, so a just-created account could never sign
+# in without someone thinking to check that inbox. Disabled to match the
+# hosted project's setting and remove that friction; local dev accounts are
+# synthetic anyway, so skipping confirmation costs nothing here.
+enable_confirmations = false
 
 # Google sign-in. The client secret is never written to this file — it's
 # read from the GOOGLE_CLIENT_SECRET environment variable at `supabase
