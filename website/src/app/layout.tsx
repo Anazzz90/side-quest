@@ -23,7 +23,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={jakarta.variable}>
-      <body>{children}</body>
+      {/* suppressHydrationWarning: browser extensions like Grammarly inject
+          attributes (data-gr-ext-installed, etc.) onto <body> before React
+          hydrates. That's a real DOM difference but not one our own code
+          causes or needs to react to, so it's a false-positive warning
+          for this element specifically. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
